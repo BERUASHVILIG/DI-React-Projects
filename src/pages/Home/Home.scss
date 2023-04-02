@@ -7,6 +7,9 @@ input {
   margin-bottom: 1rem;
 }
 .flex-wrap {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  width: 100%;
+  margin: auto;
+  gap: 0 15px;
 }

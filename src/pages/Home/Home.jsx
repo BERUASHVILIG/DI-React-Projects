@@ -5,7 +5,7 @@ import axios from 'axios';
 import './Home.scss';
 import CardItem from '../../components/Card';
 
-function Home({ onAddItemsToCart }) {
+function Home({ handleAddProductsToCart, handleDeleteProductFromCart }) {
   const [products, setProducts] = useState([]);
 
   const handleValues = (event) =>
@@ -64,7 +64,8 @@ function Home({ onAddItemsToCart }) {
               product={product}
               handleDeleteProduct={handleDeleteProduct}
               onUpdateProduct={handleUpdateProduct}
-              onAddItemsToCart={onAddItemsToCart}
+              handleAddProductsToCart={handleAddProductsToCart}
+              handleDeleteProductFromCart={handleDeleteProductFromCart}
             />
           );
         })}

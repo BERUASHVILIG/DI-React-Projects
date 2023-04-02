@@ -1,9 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 import './Navigation.scss';
 
 const Navigation = ({ cartSize }) => {
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
+  const handleShowProfile = () => {
+    navigate('/profile');
+  };
+
   return (
     <header className="container">
       <nav className="subcontainer">
@@ -15,6 +26,22 @@ const Navigation = ({ cartSize }) => {
             <Link to="/cart">Cart {cartSize}</Link>
           </li>
         </ul>
+        <div className="navigation-action">
+          <Button
+            onClick={handleLogOut}
+            variant="contained"
+            color="error"
+            sx={{ fontSize: '13px', border: '2px solid black' }}>
+            LOG OUT
+          </Button>
+          <Button
+            onClick={handleShowProfile}
+            variant="contained"
+            color="success"
+            sx={{ fontSize: '13px', border: '2px solid black' }}>
+            Profile
+          </Button>
+        </div>
       </nav>
     </header>
   );

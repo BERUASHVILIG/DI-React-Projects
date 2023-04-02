@@ -1,11 +1,49 @@
 // @ts-nocheck
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Avatar, Box, Button, Typography } from '@mui/material';
 import './CardItem.scss';
 
-const CardItem = ({ product, handleDeleteProduct, onUpdateProduct, onAddItemsToCart }) => {
+const CartProductItem = ({ product, handleDeleteProductFromCart }) => {
+  return (
+    <Box className="card">
+      <Box className="card-header">
+        <Avatar src={product.images[0]} width="50px" height="100px" />
+        <Typography>
+          <Link to={`product/${product.id}`}>
+            <strong>{product.title}</strong>{' '}
+          </Link>
+        </Typography>
+        <Typography
+          style={{ color: 'red', cursor: 'pointer', marginLeft: 2 }}
+          onClick={() => handleDeleteProductFromCart(product.id)}>
+          Remove
+        </Typography>
+      </Box>
+      <Box className="card-info">
+        <Typography>
+          Brand: <strong>{product?.brand}</strong>
+        </Typography>
+        <Typography>
+          Category: <strong> {product?.category} </strong>
+        </Typography>
+        <Typography>Quantity: {product.quantity}</Typography>
+      </Box>
+    </Box>
+  );
+};
+
+const CardItem = ({
+  product,
+  handleDeleteProduct,
+  onUpdateProduct,
+  handleDeleteProductFromCart,
+  handleAddProductsToCart,
+}) => {
   // @ts-ignore
   const [editableProduct, setEditableProduct] = useState({});
+
+  const location = useLocation();
 
   const handleEditProduct = (product) => {
     setEditableProduct((prev) => {
@@ -29,9 +67,9 @@ const CardItem = ({ product, handleDeleteProduct, onUpdateProduct, onAddItemsToC
 
   // @ts-ignore
   const renderEditableProduct = () => (
-    <div className="card">
-      <div className="card-header">
-        <img
+    <Box className="card">
+      <Box className="card-header">
+        <Avatar
           src={
             // @ts-ignore
             product.images[0]
@@ -39,7 +77,7 @@ const CardItem = ({ product, handleDeleteProduct, onUpdateProduct, onAddItemsToC
           width="50px"
           height="100px"
         />
-        <span>
+        <Typography>
           {/* <strong>{product.firstName} </strong>
           <strong> {product.lastName} </strong> */}
           <input
@@ -56,10 +94,10 @@ const CardItem = ({ product, handleDeleteProduct, onUpdateProduct, onAddItemsToC
             // @ts-ignore
             onChange={handlEditValues}
           />
-        </span>
-      </div>
-      <div className="card-info">
-        <span>
+        </Typography>
+      </Box>
+      <Box className="card-info">
+        <Typography>
           Phone number:{' '}
           <input
             // @ts-ignore
@@ -68,8 +106,8 @@ const CardItem = ({ product, handleDeleteProduct, onUpdateProduct, onAddItemsToC
             // @ts-ignore
             onChange={handlEditValues}
           />
-        </span>
-        <span>
+        </Typography>
+        <Typography>
           City:{' '}
           <input
             // @ts-ignore
@@ -78,73 +116,67 @@ const CardItem = ({ product, handleDeleteProduct, onUpdateProduct, onAddItemsToC
             // @ts-ignore
             onChange={handlEditValues}
           />
-        </span>
-      </div>
-      <button
+        </Typography>
+      </Box>
+      <Button
+        variant="contained"
+        color="success"
         onClick={
           // @ts-ignore
           handleUpdateProduct
         }>
         Update Product
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 
-  const handleAddProductsToCart = (product) => {
-    // onAddItemsToCart((prev) => {
-    //   const isProductExist = prev.find((item) => item.id === product.id);
-    //   if (isProductExist) {
-    //     return prev.map((item) => {
-    //       if (item.id === product.id) {
-    //         return { ...item, quantity: item.quantity + 1 };
-    //       }
-    //       return item;
-    //     });
-    //   }
-    //   return [...prev, { ...product, quantity: 1 }];
-    // });
-    onAddItemsToCart((prev) => {
-      const indexOfItem = prev.findIndex((item) => item.id === product.id);
-      if (indexOfItem === -1) {
-        return [...prev, { ...product, quantity: 1 }];
-      }
-      const newProducts = [...prev];
-      const existingProduct = newProducts[indexOfItem];
-      const updatedProduct = { ...existingProduct, quantity: existingProduct.quantity + 1 };
-      newProducts[indexOfItem] = updatedProduct;
-      return newProducts;
-    });
-  };
-
   const renderProduct = () => (
-    <div className="card" key={product.id}>
-      <div className="card-header">
-        <img src={product.images[0]} width="50px" height="100px" />
-        <p>
+    <Box className="card" key={product.id}>
+      <Box className="card-header">
+        <Avatar src={product.images[0]} sx={{ width: '150px', height: '100px', borderRadius: '5px', margin: 'auto' }} />
+        <Typography>
           <Link to={`product/${product.id}`}>
             <strong>{product.title}</strong>{' '}
           </Link>
-        </p>
-        <p style={{ color: 'red', cursor: 'pointer', marginLeft: 2 }} onClick={() => handleDeleteProduct(product.id)}>
-          Delete
-        </p>
-      </div>
-      <div className="card-info">
-        <p>
+        </Typography>
+      </Box>
+      <Box className="card-info">
+        <Typography sx={{ color: '#fff' }}>
           Brand: <strong>{product?.brand}</strong>
-        </p>
-        <p>
+        </Typography>
+        <Typography sx={{ color: '#fff' }}>
           Category: <strong> {product?.category} </strong>
-        </p>
-      </div>
-      <button onClick={() => handleEditProduct(product)}>Edit Product</button>
-      <button style={{ marginTop: '10px' }} onClick={() => handleAddProductsToCart(product)}>
-        Add To Cart
-      </button>
-    </div>
+        </Typography>
+      </Box>
+      <Button
+        variant="contained"
+        color="error"
+        sx={{ display: 'flex', jusifyContent: 'flex-end', width: '100%' }}
+        onClick={() => handleDeleteProduct(product.id)}>
+        Delete
+      </Button>
+      <Box className="card-action">
+        <Button variant="contained" sx={{ fontWeight: 'bold' }} onClick={() => handleEditProduct(product)}>
+          Edit Product
+        </Button>
+        <Button variant="contained" sx={{ fontWeight: 'bold' }} onClick={() => handleAddProductsToCart(product)}>
+          Add To Cart
+        </Button>
+      </Box>
+    </Box>
   );
 
-  return <>{editableProduct.id ? renderEditableProduct() : renderProduct()}</>;
+  const renderContent = useMemo(() => {
+    if (location.pathname === '/cart') {
+      return <CartProductItem product={product} handleDeleteProductFromCart={handleDeleteProductFromCart} />;
+    }
+    if (editableProduct.id) {
+      return renderEditableProduct();
+    }
+    return renderProduct();
+  }, [editableProduct.id, product.quantity]);
+
+  return <>{renderContent}</>;
 };
 
 export default CardItem;

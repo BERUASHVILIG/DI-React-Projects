@@ -1,11 +1,14 @@
 .container {
-  background-color: rgb(97, 97, 181);
+  background-color: rgb(10, 10, 124);
   .subcontainer {
     width: 80%;
     margin: 0 auto;
+    display: flex;
+    align-items: center;
     ul {
       display: flex;
       list-style: none;
+      width: 80%;
       li {
         color: white;
         padding: 10px;
@@ -15,4 +18,9 @@
       }
     }
   }
+}
+
+.navigation-action {
+  display: flex;
+  gap: 15px;
 }
