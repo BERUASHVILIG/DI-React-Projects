@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Product from './pages/Product';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 import { useStore } from './store/StoreContext';
 
 import { isUserAuthenticated } from './helpers/auth';
@@ -20,6 +21,7 @@ const ProtectedRoute = () => {
         <Route index path="/" element={<Home />} />
         <Route index path="/product/:id" element={<Product />} />
         <Route index path="/cart" element={<Cart />} />
+        <Route index path="/profile" element={<Profile />} />
       </Routes>
     </>
   );

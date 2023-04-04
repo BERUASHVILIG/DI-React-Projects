@@ -9,4 +9,18 @@ input {
 .flex-wrap {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-container {
+  margin: 15px auto;
+  width: 300px;
+}
+.search-input {
+  background-color: black;
+  color: white;
+  font-size: 1.2rem;
+  padding: 10px;
+  width: 100%;
 }

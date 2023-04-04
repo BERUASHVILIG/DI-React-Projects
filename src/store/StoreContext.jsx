@@ -8,7 +8,7 @@ export const useStore = () => useContext(StoreContext);
 
 const StoreProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-  const [themeMode, setThemeMode] = useState('dark');
+  const [themeMode, setThemeMode] = useState('light');
 
   const handleAddProductsToCart = (product) => {
     // onAddItemsToCart((prev) => {
@@ -54,11 +54,11 @@ const StoreProvider = ({ children }) => {
     });
   };
 
-  const handleChangeTheme = () => setThemeMode((prev) => (prev === 'light' ? 'dark' : 'light'));
-
   const productQuantity = useMemo(() => {
     return cartItems.reduce((acc, item) => acc + item.quantity, 0);
   }, [cartItems]);
+
+  const handleChangeTheme = () => setThemeMode((prev) => (prev === 'light' ? 'dark' : 'light'));
 
   const theme = createTheme({
     palette: {

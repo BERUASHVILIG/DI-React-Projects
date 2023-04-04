@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Grid, TextField, Paper, Button } from '@mui/material';
+import { Grid, TextField, Paper, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
+import './Login.scss';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -46,8 +47,8 @@ const Login = () => {
   };
 
   return (
-    <div style={{ padding: 30 }}>
-      <Paper>
+    <Box className="login-container">
+      <Paper sx={{ backgroundColor: 'grey', padding: '30px' }}>
         <Grid container spacing={3} alignItems={'center'}>
           <Grid item xs={12}>
             <TextField label="Username" name="username" value={user.username} onChange={handleChange}></TextField>
@@ -67,7 +68,7 @@ const Login = () => {
           </Grid>
         </Grid>
       </Paper>
-    </div>
+    </Box>
   );
 };
 
